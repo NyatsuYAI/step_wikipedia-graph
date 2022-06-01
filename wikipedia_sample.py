@@ -36,6 +36,8 @@ def dfs_searcher(
     # )
     tracking_review.append(now_tracking)
 
+    # check target word or not
+
     if pages[parent_node] == target_word:
         length = len(now_tracking)
         tracking_list = copy.copy(now_tracking)
@@ -44,13 +46,20 @@ def dfs_searcher(
         now_tracking.remove(parent_node)
         return min_tracking_index
 
-    # maximum recursion depth exceeded
+    # stopper setting
+    # if links and pages is large file
+    # use this stopper
+
     if len(min_tracking_index) > 1:
+        # Determine the number of answers
         now_tracking.remove(parent_node)
         return min_tracking_index
     elif len(now_tracking) > 5:
+        # Countermeasures against maximum recursion depth exceeded
         now_tracking.remove(parent_node)
         return min_tracking_index
+
+    # check leef
 
     if parent_node not in links:
         # print(f"this is leef")
