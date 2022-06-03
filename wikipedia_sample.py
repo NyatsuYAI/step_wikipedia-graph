@@ -5,7 +5,6 @@ from genericpath import exists
 from multiprocessing import parent_process
 from typing import Container
 import copy
-import sys
 
 
 def data_transfer(stack_or_que, index_from_adress_to_name):
@@ -34,14 +33,14 @@ def dfs_searcher(
     # print(
     #     f"now root is {pages[parent_node]},now traking is {data_transfer(now_tracking,pages)}"
     # )
-    tracking_review.append(now_tracking)
+    tracking_review.append(copy.copy(now_tracking))
 
     # check target word or not
 
     if pages[parent_node] == target_word:
-        length = len(now_tracking)
+        tracking_length = len(now_tracking)
         tracking_list = copy.copy(now_tracking)
-        min_tracking_index[length] = tracking_list
+        min_tracking_index[tracking_length] = tracking_list
         # print(f"find target word {data_transfer(now_tracking,pages)}")
         now_tracking.remove(parent_node)
         return min_tracking_index
@@ -175,13 +174,10 @@ def main():
             print("sorry we cant find")
         else:
             answer_sorted = sorted(answer.items(), key=lambda x: x[0])
-            print(answer_sorted[0])
             print(data_transfer(answer_sorted[0][1], pages))
             print(f"all answer is {answer_sorted}")
-
         with open("./review_dfs.txt", "w", encoding="utf-8") as f:
             for data in tracking_review:
-
                 f.write("%s\n" % data_transfer(data, pages))
     except AssertionError as e:
         print(e)
